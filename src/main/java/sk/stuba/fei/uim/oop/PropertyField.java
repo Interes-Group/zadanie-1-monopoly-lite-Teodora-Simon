@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class PropertyField extends Field{
 
     private double price;
+
     public PropertyField(FieldType type, double price) {
         super(type);
         this.price = price;

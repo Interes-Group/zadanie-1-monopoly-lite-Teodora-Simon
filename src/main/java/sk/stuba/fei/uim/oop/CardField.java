@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class CardField extends Field{
 
     private int value;
+
     public CardField(FieldType type, int value) {
         super(type);
         this.value = value;

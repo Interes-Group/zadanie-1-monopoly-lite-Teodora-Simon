@@ -1,10 +1,6 @@
 package sk.stuba.fei.uim.oop;
 
 import java.util.ArrayList;
-//FieldType
-// Field
-//ProperyField, CardField,CornerField
-
 
 public class Player
 {
@@ -27,10 +23,12 @@ public class Player
     {
         return pause;
     }
+
     public void setPause(int p)
     {
         pause=p;
     }
+
     public String getName()
     {
         return name;

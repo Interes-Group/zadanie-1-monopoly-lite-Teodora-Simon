@@ -6,7 +6,6 @@ public class Field {
 
     private FieldType type;
 
-
     public Field(FieldType type) {
         this.type = type;
     }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class CornerField extends Field{
 
-
     public CornerField(FieldType type) {
         super(type);
     }
