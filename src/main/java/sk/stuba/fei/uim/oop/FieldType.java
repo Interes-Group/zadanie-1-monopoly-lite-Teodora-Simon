@@ -5,5 +5,6 @@ public enum FieldType {
     Police,
     Tax_payment,
     Chance,
-    Property
+    Property,
+    Start
 }

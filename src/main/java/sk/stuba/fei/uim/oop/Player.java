@@ -60,6 +60,6 @@ public class Player
 
     @Override
     public String toString() {
-        return "Player"  + name + " have money:" + money + "have properties=" + properties;
+        return "Player: "  + name + " have money: " + money + "have properties=" + properties;
     }
 }
