@@ -4,8 +4,19 @@ import java.util.ArrayList;
 
 public class CardField extends Field{
 
-    public CardField(FieldType type, ArrayList<Integer> player) {
-        super(type, player);
+    private int value;
+    public CardField(FieldType type, int value) {
+        super(type);
+        this.value = value;
     }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
 
 }

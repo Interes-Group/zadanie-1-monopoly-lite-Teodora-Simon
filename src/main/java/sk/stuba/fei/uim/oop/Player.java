@@ -10,14 +10,16 @@ public class Player
 {
     private String name;
     private float money;
-    private ArrayList<Integer> positions;
+    private int position;
+    private ArrayList<Integer> properties;
     private int pause;
 
     public Player(String name, float money)
     {
         this.name=name;
         this.money=money;
-        this.positions= new ArrayList<Integer>();
+        this.properties= new ArrayList<Integer>();
+        position=0;
         pause=0;
     }
 
@@ -49,14 +51,17 @@ public class Player
         this.money=money;
     }
 
-    public ArrayList<Integer> getPositions()
+    public ArrayList<Integer> getProperties()
     {
-        return positions;
+        return properties;
     }
 
-    public void setPositions(ArrayList<Integer> positions){
-        this.positions=positions;
+    public void setProperties(ArrayList<Integer> positions){
+        this.properties=positions;
     }
 
-
+    @Override
+    public String toString() {
+        return "Player"  + name + " have money:" + money + "have properties=" + properties;
+    }
 }

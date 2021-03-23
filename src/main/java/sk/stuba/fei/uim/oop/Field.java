@@ -5,11 +5,10 @@ import java.util.ArrayList;
 public class Field {
 
     private FieldType type;
-    private ArrayList<Integer> player;
 
-    public Field(FieldType type, ArrayList<Integer> player) {
+
+    public Field(FieldType type) {
         this.type = type;
-        this.player = player;
     }
 
     public FieldType getType() {
@@ -20,12 +19,6 @@ public class Field {
         this.type = type;
     }
 
-    public ArrayList<Integer> getPlayer() {
-        return player;
-    }
 
-    public void setPlayer(ArrayList<Integer> player) {
-        this.player = player;
-    }
 
 }
