@@ -18,7 +18,7 @@ public class ZKlavesnice
         }
         catch (Exception e)
         {
-            System.out.println("nepodarilo sa");
+            System.out.println("Enter again!");
             c = readChar(napis_pre_uzivatela);
         }
 
@@ -37,7 +37,7 @@ public class ZKlavesnice
         }
         catch (Exception e)
         {
-            System.out.println("nepodarilo sa");
+            System.out.println("Enter again!");
             s = readString(napis_pre_uzivatela);
         }
 
@@ -58,7 +58,7 @@ public class ZKlavesnice
         }
         catch (Exception e)
         {
-            System.out.println("nepodarilo sa");
+            System.out.println("Enter again!");
             n = readInt(napis_pre_uzivatela);
         }
 
@@ -79,7 +79,7 @@ public class ZKlavesnice
         }
         catch (Exception e)
         {
-            System.out.println("nepodarilo sa");
+            System.out.println("Enter again!");
             x = readDouble(napis_pre_uzivatela);
         }
 

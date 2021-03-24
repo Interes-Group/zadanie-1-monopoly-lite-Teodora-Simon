@@ -52,7 +52,7 @@ public class Board
     private void initBoard(int size)
     {
         fields=new ArrayList<Field>(Collections.nCopies(size, null));
-        System.out.println(fields.size());
+        //System.out.println(fields.size());
         Field startField= new Field(FieldType.Start);
         fields.set(0,startField);
         Field jailField = new Field(FieldType.Jail);
@@ -263,6 +263,7 @@ public class Board
                 printPlayers();
                 if(players.size()==1)
                 {
+                    System.out.println("The winner is: "+ players.get(0).getName());
                     break;
                 }
                 ZKlavesnice.readString("");
