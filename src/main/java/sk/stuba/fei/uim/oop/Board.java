@@ -2,6 +2,7 @@ package sk.stuba.fei.uim.oop;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 /*
 <template Class T>
 class ArrayList
@@ -18,7 +19,7 @@ public class Board
     private ArrayList<Player> players;
     private ArrayList<Integer> cards;
 
-  //  (CardField)f.getValue();
+
 
     public  Board(int size, int numPlayers, int cardNum)
     {
@@ -65,6 +66,18 @@ public class Board
             fields.set(i, cardField);
         }
 
+        for(int i=0; i<24; i++)
+        {
+            if(fields.get(i)==null)
+            {
+                Random r= new Random();
+                int randomNum = r.nextInt((1000 - 100) + 1) + 100;
+                PropertyField p= new PropertyField(FieldType.Property,randomNum);
+                fields.set(i,p);
+
+            }
+        }
+
     }
 
     private void initCards(int cardNum)
@@ -102,7 +115,56 @@ public class Board
 
     public void printBoard()
     {
-        System.out.print("zmena");
+       String gore="";
+       for(int i=0;i<7;i++){
+           gore = gore + (fields.get(i)+"|");
+       }
+
+        System.out.println(gore);
+       int duzina=gore.length();
+       int razlika=16;
+       for(int i=23; i>18; i--)
+       {
+           String   f1=fields.get(i).toString();
+           String f2=fields.get(i-razlika).toString();
+           int spaces=duzina-f1.length()-f2.length();
+           String s="";
+           for(int j=0; j<spaces; j++)
+           {
+                s+=" ";
+           }
+           String line;
+           line=f1+s+f2;
+           System.out.println(line);
+           razlika-=2;
+       }
+       gore="";
+       for(int i=18; i>11; i--)
+       {
+           gore = gore + (fields.get(i)+"|");
+       }
+
+       System.out.println(gore);
+
     }
+
+    public void Game()
+    {
+        while (true) {
+            for(int i=0;i>players.size();i++){
+                Random r= new Random();
+                int randomNum = r.nextInt((6 - 1) + 1) + 1;
+                Player p=players.get(i);
+                p.setPosition(p.getPosition()+randomNum);
+                fields.get(p.getPosition()).getType();
+
+
+
+
+            }
+        }
+    }
+
+
 
 }

@@ -58,8 +58,16 @@ public class Player
         this.properties=positions;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     @Override
     public String toString() {
-        return "Player: "  + name + " have money: " + money + "have properties=" + properties;
+        return "Player: "  + name +" position: "+position+ " have money: " + money + " have properties=" + properties;
     }
 }
