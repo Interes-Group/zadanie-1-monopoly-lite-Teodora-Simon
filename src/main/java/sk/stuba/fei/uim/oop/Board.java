@@ -18,12 +18,13 @@ public class Board
     private ArrayList<Field> fields;
     private ArrayList<Player> players;
     private ArrayList<Integer> cards;
+    private double bank;
 
 
 
     public  Board(int size, int numPlayers, int cardNum)
     {
-
+        bank=0;
 
         players = new ArrayList<Player>();
         initBoard(size);
@@ -89,8 +90,6 @@ public class Board
         }
         Collections.shuffle(cards);
 
-
-
     }
 
 
@@ -115,19 +114,21 @@ public class Board
 
     public void printBoard()
     {
-       String gore="";
+       String up="";
        for(int i=0;i<7;i++){
-           gore = gore + (fields.get(i)+"|");
+           up = up + (fields.get(i)+"|");
        }
 
-        System.out.println(gore);
-       int duzina=gore.length();
-       int razlika=16;
+       System.out.println(up);
+
+       int len=up.length();
+       int diff=16;
+
        for(int i=23; i>18; i--)
        {
-           String   f1=fields.get(i).toString();
-           String f2=fields.get(i-razlika).toString();
-           int spaces=duzina-f1.length()-f2.length();
+           String f1=fields.get(i).toString();
+           String f2=fields.get(i-diff).toString();
+           int spaces=len-f1.length()-f2.length();
            String s="";
            for(int j=0; j<spaces; j++)
            {
@@ -136,32 +137,133 @@ public class Board
            String line;
            line=f1+s+f2;
            System.out.println(line);
-           razlika-=2;
+           diff-=2;
        }
-       gore="";
+       up="";
        for(int i=18; i>11; i--)
        {
-           gore = gore + (fields.get(i)+"|");
+           up = up + (fields.get(i)+"|");
        }
 
-       System.out.println(gore);
+       System.out.println(up);
 
     }
 
+    public void Play(Player p)
+    {
+        if(p.getPause()>0)
+        {
+            p.setPause(p.getPause()-1);
+            return;
+        }
+        Random r= new Random();
+        int randomNum = r.nextInt((6 - 1) + 1) + 1;
+        int newPosion=p.getPosition()+randomNum;
+        if(newPosion>23)
+        {
+            newPosion=newPosion%24;
+            p.setMoney(p.getMoney()+200);
+        }
+        p.setPosition(newPosion);
+        Field f=fields.get(p.getPosition());
+        if(f.getType() == FieldType.Police)
+        {
+            int rNumber = r.nextInt((6 - 1) + 1) + 1;
+            p.setPause(rNumber);
+
+        }
+        else if(f.getType() == FieldType.Tax_payment)
+        {
+            p.setMoney(p.getMoney()-200);
+            bank+=200;
+
+        }
+        else if(f.getType() == FieldType.Chance)
+        {
+           int i= cards.get(0);
+           cards.remove(0);
+
+            if(i==0)
+            {
+                float newMoney=(float)(p.getMoney()*0.8);
+                p.setMoney(newMoney);
+            }
+            else if(i==1)
+            {
+                p.setMoney(p.getMoney()+500);
+            }
+            else if(i==2)
+            {
+                p.setMoney(p.getMoney()-200);
+            }
+            else if(i==3)
+            {
+                p.setPosition(0);
+            }
+            else if(i==4)
+            {
+                float newMoney=(float)(p.getMoney()*0.5);
+                p.setMoney(newMoney);
+            }
+
+
+        }
+        else if(f.getType() == FieldType.Property)
+        {
+            PropertyField pf=(PropertyField) f;
+            if(pf.getPlayer()!=null)
+            {
+                if(p.getMoney()>pf.getPrice())
+                {
+                    Player owner=pf.getPlayer();
+                    p.setMoney(p.getMoney()-(float)pf.getPrice());
+                    pf.setPrice(pf.getPrice()+(float)pf.getPrice());
+
+                }
+                else
+                    {
+                        players.remove(p);
+                    }
+                return;
+            }
+
+            int option = ZKlavesnice.readInt("1. Buy a property \n2. Continue turn");
+            if(option==1)
+            {
+                if((p.getMoney()>pf.getPrice())) {
+                    p.setMoney(p.getMoney() - (float) pf.getPrice());
+                    p.getProperties().add(p.getPosition());
+                    pf.setPlayer(p);
+                }
+
+            }
+        }
+
+
+
+    }
     public void Game()
     {
         while (true) {
-            for(int i=0;i>players.size();i++){
-                Random r= new Random();
-                int randomNum = r.nextInt((6 - 1) + 1) + 1;
+            for(int i=0;i>players.size();i++)
+            {
                 Player p=players.get(i);
-                p.setPosition(p.getPosition()+randomNum);
-                fields.get(p.getPosition()).getType();
+                Play(p);
+                printBoard();
+                printPlayers();
+                if(players.size()==1)
+                {
+                    break;
+                }
+                String s=ZKlavesnice.readString("");
+
+
 
 
 
 
             }
+
         }
     }
 
