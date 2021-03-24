@@ -103,6 +103,7 @@ public class Board
 
     }
 
+    /*
     public void printCards()
     {
         for(int i=0; i<cards.size(); i++)
@@ -111,7 +112,7 @@ public class Board
         }
 
     }
-
+    */
     public void printBoard()
     {
        String up="";
@@ -185,23 +186,28 @@ public class Board
 
             if(i==0)
             {
+                System.out.println("Luxury tax!");
                 float newMoney=(float)(p.getMoney()*0.8);
                 p.setMoney(newMoney);
             }
             else if(i==1)
             {
+                System.out.println("Bonus!");
                 p.setMoney(p.getMoney()+500);
             }
             else if(i==2)
             {
+                System.out.println("Penalty for parking!");
                 p.setMoney(p.getMoney()-200);
             }
             else if(i==3)
             {
+                System.out.println("Won a BINGO!");
                 p.setPosition(0);
             }
             else if(i==4)
             {
+                System.out.println("Had a divorce!");
                 float newMoney=(float)(p.getMoney()*0.5);
                 p.setMoney(newMoney);
             }
@@ -245,17 +251,21 @@ public class Board
     public void Game()
     {
         while (true) {
-            for(int i=0;i>players.size();i++)
+            for(int i=0;i<players.size();i++)
             {
                 Player p=players.get(i);
                 Play(p);
+                if(cards.size()==0)
+                {
+                    initCards(5);
+                }
                 printBoard();
                 printPlayers();
                 if(players.size()==1)
                 {
                     break;
                 }
-                String s=ZKlavesnice.readString("");
+                ZKlavesnice.readString("");
 
 
 
