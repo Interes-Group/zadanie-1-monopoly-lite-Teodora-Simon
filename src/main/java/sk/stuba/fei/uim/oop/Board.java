@@ -38,7 +38,7 @@ public class Board
             String name;
             float money;
             name = ZKlavesnice.readString("Enter name of player:");
-            money = 1000;
+            money = 2000;
             Player p= new Player(name,money);
             players.add(p);
 
@@ -53,7 +53,7 @@ public class Board
         fields.set(0,startField);
         Field jailField = new Field(FieldType.Jail);
         fields.set(6,jailField);
-        Field taxField = new Field(FieldType.Tax_payment);
+        Field taxField = new Field(FieldType.Tax);
         fields.set(12,taxField);
         Field policeField = new Field(FieldType.Police);
         fields.set(18,policeField);
@@ -69,7 +69,8 @@ public class Board
             {
                 Random r= new Random();
                 int randomNum = r.nextInt((1000 - 100) + 1) + 100;
-                PropertyField p= new PropertyField(FieldType.Property,randomNum);
+                int fee=randomNum/2;
+                PropertyField p= new PropertyField(FieldType.Property,randomNum,fee);
                 fields.set(i,p);
 
             }
@@ -157,16 +158,36 @@ public class Board
 
     }
 
+    public void removePlayer(Player p)
+    {
+        for(int index: p.getProperties())
+        {
+            if(fields.get(index) instanceof  PropertyField)
+            {
+                PropertyField pf=(PropertyField)fields.get(index);
+                pf.setPlayer(null);
+            }
+        }
+        System.out.println("Player "+p.getName()+" has been removed from game");
+        players.remove(p);
+
+
+    }
+
     public void play(Player p)
     {
-        System.out.println(p.getName() +" is on turn!\n");
         if(p.getPause()>0)
         {
+            System.out.println(p.getName() +" is in jail for "+p.getPause()+" turns");
+
             p.setPause(p.getPause()-1);
             return;
         }
+        System.out.println(p.getName() +" is on turn!\n");
+
         Random r= new Random();
         int randomNum = r.nextInt((6 - 1) + 1) + 1;
+        System.out.println("Player "+p.getName()+" got "+randomNum);
         int newPosition=p.getPosition()+randomNum;
         if(newPosition>23)
         {
@@ -174,7 +195,6 @@ public class Board
             p.setMoney(p.getMoney()+200);
         }
         p.setPosition(newPosition);
-        System.out.println(randomNum);
         Field f=fields.get(p.getPosition());
         if(f.getType() == FieldType.Police)
         {
@@ -183,8 +203,13 @@ public class Board
             p.setPosition(6);
 
         }
-        else if(f.getType() == FieldType.Tax_payment)
+        else if(f.getType() == FieldType.Tax)
         {
+            if(p.getMoney()<200)
+            {
+                removePlayer(p);
+                return;
+            }
             System.out.println(p.getName()+" is paying a tax!");
             p.setMoney(p.getMoney()-200);
             bank+=200;
@@ -212,7 +237,7 @@ public class Board
                 System.out.println(p.getName()+" got a penalty for parking!");
                 if(p.getMoney()<200)
                 {
-                    players.remove(p);
+                  removePlayer(p);
                 }
                 else
                     {
@@ -222,7 +247,7 @@ public class Board
             else if(c.getType() == CardType.Bingo)
             {
                 System.out.println(p.getName()+" won a BINGO!");
-                p.setPosition(0);
+                p.setMoney(p.getMoney()+1000);
             }
             else if(c.getType() == CardType.Divorce)
             {
@@ -238,17 +263,17 @@ public class Board
             {
                 if(p!=pf.getPlayer())
                 {
-                    if(p.getMoney()>pf.getPrice())
+                    if(p.getMoney()>pf.getFee())
                     {
 
                         Player owner=pf.getPlayer();
-                        p.setMoney(p.getMoney()-(float)pf.getPrice());
-                        pf.setPrice(pf.getPrice()+(float)pf.getPrice());
+                        p.setMoney(p.getMoney()-(float)pf.getFee());
+                        owner.setMoney(owner.getMoney()+(float)pf.getFee());
 
                     }
                     else
                     {
-                        players.remove(p);
+                        removePlayer(p);
                     }
                 }
                 return;
@@ -267,11 +292,12 @@ public class Board
                 }
             }
         }
+
     }
 
     public void Game()
     {
-
+        labela:
         while (true) {
             for(int i=0;i<players.size();i++)
             {
@@ -280,13 +306,15 @@ public class Board
                 if(players.size()==1)
                 {
                     System.out.println("The winner is: "+ players.get(0).getName());
-                    break;
+                    break labela;
                 }
                 if(cards.size()==0)
                 {
                     initCards(5);
                 }
+
                 printBoard();
+                System.out.println("------------------------------------------------------------------------------");
                 printPlayers();
 
                 ZKlavesnice.readString("");
