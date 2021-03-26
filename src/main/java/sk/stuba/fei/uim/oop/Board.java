@@ -3,14 +3,6 @@ package sk.stuba.fei.uim.oop;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-/*
-<template Class T>
-class ArrayList
-{
-          T  polje;
-
-}
- */
 
 public class Board
 {

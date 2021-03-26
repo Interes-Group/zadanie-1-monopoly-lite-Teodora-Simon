@@ -4,12 +4,8 @@ import java.util.ArrayList;
 
 public class CardField extends Field{
 
-
     public CardField(FieldType type) {
         super(type);
     }
-
-
-
 
 }
